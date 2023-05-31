@@ -2,3 +2,5 @@
 datasets
 .python-version
 .idea/
+*.sqlite
+.DS_Store

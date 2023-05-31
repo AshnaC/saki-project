@@ -6,15 +6,16 @@ connection = sqlite3.connect("dataset.db")
 indicators_additional_df = pd.read_csv(
     'https://docs.google.com/spreadsheets/d/1o4CAldClFDAskwaXhDe0Hw7r4WY7VyDL91o51c4py_c/'
     'export?gid=1924564310&format=csv')
+    
 # print(indicators_additional_df)
 
-indicators_additional_df.to_sql('env_indicators_additional', connection, if_exists='replace', index=False)
+# indicators_additional_df.to_sql('env_indicators_additional', connection, if_exists='replace', index=False)
 
 
 temp_df = pd.read_csv('https://docs.google.com/spreadsheets/d/1o4CAldClFDAskwaXhDe0Hw7r4WY7VyDL91o51c4py_c/'
                       'export?gid=0&format=csv')
 
-temp_df.to_sql('temperature', connection, if_exists='replace', index=False)
+# temp_df.to_sql('temperature', connection, if_exists='replace', index=False)
 
 # df = pd.read_sql('select * from temperature', connection)
 # print(df)
@@ -67,49 +68,61 @@ ozone_concentration_df.at[0, 'Type'] = 'Ozone concentration'
 # print(ozone_concentration_df)
 
 
-indicator_df = pd.concat(
-    [no2_emission_df, ozone_concentration_df, waste_df, green_house_gases_df, no2_concentration_df,
-     particulate_matter_df], axis=0, ignore_index=True)
-# print(indicator_df.columns)
-sorted_cols = ['Type'] + sorted(indicator_df.columns[1:])
-indicator_df = indicator_df[sorted_cols]
-# print(indicator_df)
-
-indicator_df.to_sql('env_indicators', connection, if_exists='replace', index=False)
-
 # More Data sets to be imported in need
 
 # Noise Pollution - day and night Number affected
 # noise_pollution_day.csv
 # noise_pollution_night.csv
+# noise_pollution_day_df = pd.read_csv('../datasets/indicators/noise_pollution_day.csv', delimiter=';')
+# print(noise_pollution_day_df)
 
 # Recycling rate - Recycling rate in percent
 # Recycling rate.csv
+recycling_df = pd.read_csv('../datasets/indicators/Recycling rate.csv', delimiter=';')
+recycling_df.rename(columns={recycling_df.columns[0]: "Type"}, inplace=True)
+# print(recycling_df)
+
 
 # Land Consumption - Hectare per day
 # Land consumption.csv
+consumption_df = pd.read_csv('../datasets/indicators/Land consumption.csv', delimiter=';')
+consumption_df.rename(columns={consumption_df.columns[0]: "Type"}, inplace=True)
+# Remove some formatting issues in columns
+consumption_df.rename(lambda x: x[0:4], axis='columns', inplace=True)
+# print(consumption_df.columns)
+
 
 # Settlement area - square meters of settlement area per head
 # Settlement area.csv
+settlement_df = pd.read_csv('../datasets/indicators/Settlement area.csv', delimiter=';')
+settlement_df.rename(columns={settlement_df.columns[0]: "Type"}, inplace=True)
+print(settlement_df)
 
 # Heavy metal discharge at rural stations -Normalization to 1986 = 1.0
 # heavy_metal_rural.csv
+heavy_metal_df = pd.read_csv('../datasets/indicators/heavy_metal_rural.csv', delimiter=';')
+heavy_metal_df.rename(columns={heavy_metal_df.columns[0]: "Type"}, inplace=True)
+# print(heavy_metal_df)
 
-# Ecological status of surface watercourses
-# Ecological condition of surface watercourses.csv
 
 #  Nitrate concentration in groundwater
 # Percentage of monitoring sites with nitrate contamination above 50 milligrams per liter
 # Percentage of monitoring sites with nitrate levels above 50 mg/l
 
-# Endangered species
-# Percentage of endangerment categories
-# Endangered species.csv
+nitrate_concentration_df = pd.read_csv('../datasets/indicators/Nitrate concentration in groundwater.csv', delimiter=';')
+nitrate_concentration_df.rename(columns={nitrate_concentration_df.columns[0]: "Type"}, inplace=True)
+# print(nitrate_concentration_df)
+
 
 #  Nature conservation areas
 # Percentage of the state's land area
 # Nature Conservation.csv
 # Nitrate concentration in groundwater.csv
+conservation_area_df = pd.read_csv('../datasets/indicators/Nature Conservation.csv', delimiter=';')
+conservation_area_df.rename(columns={conservation_area_df.columns[0]: "Type"}, inplace=True)
+conservation_cols =['Type'] + list(conservation_area_df.columns[67:])
+conservation_area_df = conservation_area_df[conservation_cols]
+# print(conservation_area_df)
 
 # Nitrogen input
 # kilograms per hectare
@@ -126,3 +139,27 @@ indicator_df.to_sql('env_indicators', connection, if_exists='replace', index=Fal
 #  Agricultural land with high nature value (HNV)
 # Percentage of total agricultural area
 # Agricultural land with high natural value.csv
+
+# Endangered species
+# Percentage of endangerment categories
+# Endangered species.csv
+
+# Maybe a measure of Climate change
+endangered_df = pd.read_csv('../datasets/indicators/Endangered species.csv', delimiter=';')
+endangered_df.rename(columns={endangered_df.columns[0]: "Type"}, inplace=True)
+endangered_df['Type'] = endangered_df['Type'].map(lambda x: x[0:4])
+endangered_df = endangered_df.transpose()
+# print(endangered_df)
+
+indicator_df = pd.concat(
+    [no2_emission_df, ozone_concentration_df,
+     waste_df, green_house_gases_df, no2_concentration_df,
+     particulate_matter_df, recycling_df, consumption_df,
+     settlement_df, heavy_metal_df, nitrate_concentration_df,
+     conservation_area_df], axis=0, ignore_index=True)
+sorted_cols = ['Type'] + sorted(indicator_df.columns[1:])
+# print(sorted_cols)
+
+indicator_df = indicator_df[sorted_cols]
+print(indicator_df)
+# indicator_df.to_sql('env_indicators', connection, if_exists='replace', index=False)
