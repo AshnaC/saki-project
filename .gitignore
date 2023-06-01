@@ -4,3 +4,5 @@ datasets
 .idea/
 *.sqlite
 .DS_Store
+.vscode
+*.pyc
