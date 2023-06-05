@@ -8,7 +8,6 @@ df = df.dropna(how='any')
 
 # print(df.columns)
 # print(df.dtypes)
-g
 valid_verkehr_cols = ["FV", "RV", "nur DPN"]
 df = df[df.Verkehr.isin(valid_verkehr_cols)]
 # print(df.Betreiber_Nr.unique())
