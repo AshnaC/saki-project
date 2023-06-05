@@ -6,11 +6,8 @@ df = pd.read_csv('https://download-data.deutschebahn.com/static/datasets/haltest
 df.drop(['Status'], inplace=True, axis=1)
 df = df.dropna(how='any')
 
-# print(df.columns)
-# print(df.dtypes)
 valid_verkehr_cols = ["FV", "RV", "nur DPN"]
 df = df[df.Verkehr.isin(valid_verkehr_cols)]
-# print(df.Betreiber_Nr.unique())
 
 df = df[df.Laenge.between(-90, 90)]
 df = df[df.Breite.between(-90, 90)]
