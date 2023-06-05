@@ -8,7 +8,7 @@ df = df.dropna(how='any')
 
 # print(df.columns)
 # print(df.dtypes)
-
+g
 valid_verkehr_cols = ["FV", "RV", "nur DPN"]
 df = df[df.Verkehr.isin(valid_verkehr_cols)]
 # print(df.Betreiber_Nr.unique())
@@ -30,7 +30,7 @@ dtypes = {'EVA_NR': types.INTEGER,
           'Laenge': types.FLOAT,
           'Breite': types.FLOAT,
           'Betreiber_Name': types.TEXT,
-          'Betreiber_Nr': types.FLOAT
+          'Betreiber_Nr': types.INTEGER
           }
 df.to_sql('trainstops', engine, if_exists='replace', index=False, dtype=dtypes)
 
