@@ -1,6 +1,16 @@
 from os import listdir
 from os.path import isfile, join
 
+from inspect import getsourcefile
+import os.path
+import sys
+
+current_path = os.path.abspath(getsourcefile(lambda: 0))
+current_dir = os.path.dirname(current_path)
+parent_dir = current_dir[:current_dir.rfind(os.path.sep)]
+
+sys.path.insert(0, parent_dir)
+
 table_names = ['no2_emission', 'ozone_concentration',
                'waste', 'green_house_gases', 'no2_concentration',
                'particulate_matter', 'recycling', 'consumption',
@@ -22,7 +32,7 @@ def get_file_prefixes():
 
 
 def get_files():
-    file_list = [f for f in listdir('datasets/indicators/') if isfile(join('datasets/indicators/', f))
+    file_list = [f for f in listdir(parent_dir + '/datasets/indicators/') if
+                 isfile(join(parent_dir + '/datasets/indicators/', f))
                  and f.endswith('.csv')]
     return file_list
-

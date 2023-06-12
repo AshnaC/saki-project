@@ -1,10 +1,22 @@
 import pandas as pd
 import sqlite3
-from data.utils import get_files, files_to_ignore
 
-connection = sqlite3.connect("data/dataset.sqlite")
+from inspect import getsourcefile
+import os.path
+import sys
+
+current_path = os.path.abspath(getsourcefile(lambda:0))
+current_dir = os.path.dirname(current_path)
+parent_dir = current_dir[:current_dir.rfind(os.path.sep)]
+
+sys.path.insert(0, parent_dir)
+
+
+connection = sqlite3.connect(parent_dir+"/data/dataset.sqlite")
 
 df_obj = {}
+
+from data.utils import get_files, files_to_ignore
 
 
 def read_all_files():
@@ -32,7 +44,7 @@ def customize_df(df, name):
 
 
 def read_csv_file(file_name):
-    file_url = 'datasets/indicators/' + file_name
+    file_url = parent_dir + '/datasets/indicators/' + file_name
     return pd.read_csv(file_url, delimiter=';', decimal=',')
 
 
