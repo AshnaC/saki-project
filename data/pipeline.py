@@ -73,6 +73,6 @@ def load_temperature_file():
     temp_df.to_sql('temperature', connection, if_exists='replace', index=False)
 
 
-load_files()
+# load_files()
 load_temperature_file()
 # print(df_obj)
