@@ -1,8 +1,8 @@
 import pandas as pd
 import sqlite3
-from utils import get_files, files_to_ignore
+from data.utils import get_files, files_to_ignore
 
-connection = sqlite3.connect("dataset.sqlite")
+connection = sqlite3.connect("data/dataset.sqlite")
 
 df_obj = {}
 
@@ -32,7 +32,7 @@ def customize_df(df, name):
 
 
 def read_csv_file(file_name):
-    file_url = '../datasets/indicators/' + file_name
+    file_url = 'datasets/indicators/' + file_name
     return pd.read_csv(file_url, delimiter=';', decimal=',')
 
 
@@ -50,7 +50,7 @@ def create_combined_df():
     indicator_df = pd.concat(df_list, axis=0, ignore_index=True)
     sorted_cols = ['Type'] + sorted(indicator_df.columns[1:])
     indicator_df = indicator_df[sorted_cols]
-    # print('count', count)
+    print('count', count)
     # print(indicator_df['Type'])
     return indicator_df
 
@@ -58,13 +58,21 @@ def create_combined_df():
 def load_files():
     endangered_df = read_file('Endangered species.csv')
     endangered_df = endangered_df.transpose()
-    temp_df = pd.read_csv('https://docs.google.com/spreadsheets/d/1o4CAldClFDAskwaXhDe0Hw7r4WY7VyDL91o51c4py_c/'
-                          'export?gid=0&format=csv')
+    # temp_df = pd.read_csv('https://docs.google.com/spreadsheets/d/1o4CAldClFDAskwaXhDe0Hw7r4WY7VyDL91o51c4py_c/'
+    #                       'export?gid=0&format=csv')
     indicator_df = create_combined_df()
     indicator_df.to_sql('env_indicators', connection, if_exists='replace', index=False)
-    temp_df.to_sql('temperature', connection, if_exists='replace', index=False)
+    # temp_df.to_sql('temperature', connection, if_exists='replace', index=False)
     endangered_df.to_sql('endangered', connection, if_exists='replace', index=False)
+    # connection.close()
+
+
+def load_temperature_file():
+    temp_df = pd.read_csv('https://docs.google.com/spreadsheets/d/1o4CAldClFDAskwaXhDe0Hw7r4WY7VyDL91o51c4py_c/'
+                          'export?gid=0&format=csv')
+    temp_df.to_sql('temperature', connection, if_exists='replace', index=False)
 
 
 load_files()
+load_temperature_file()
 # print(df_obj)

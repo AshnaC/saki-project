@@ -22,7 +22,7 @@ def get_file_prefixes():
 
 
 def get_files():
-    file_list = [f for f in listdir('../datasets/indicators/') if isfile(join('../datasets/indicators/', f))
+    file_list = [f for f in listdir('datasets/indicators/') if isfile(join('datasets/indicators/', f))
                  and f.endswith('.csv')]
     return file_list
 
