@@ -6,7 +6,7 @@ pipeline CarsPipeline {
 	}
 
 	block CarsTextFileInterpreter oftype TextFileInterpreter {
-        encoding: "utf-8";
+        encoding: "ASCII";
 	}
 
 	block CarsCSVInterpreter oftype CSVInterpreter {
@@ -57,6 +57,7 @@ pipeline CarsPipeline {
 	];
     }
 
+
     constraint CINLengthConstraint oftype LengthConstraint {
         minLength: 5;
         maxLength: 5;
@@ -78,7 +79,7 @@ pipeline CarsPipeline {
 		columns: [
 			"date" oftype text,
 			"CIN" oftype CINType,
-			"name" oftype text,
+			"name" oftype text ,
 			"petrol" oftype OtherColTypes,
 			"diesel" oftype OtherColTypes,
 			"gas" oftype OtherColTypes,
@@ -88,11 +89,13 @@ pipeline CarsPipeline {
 			"others" oftype OtherColTypes,
 	
 		];
+
 	}
 
 	block CarsLoader oftype SQLiteLoader {
 		table: "cars";
 		file: "./cars.sqlite";
+
 	}
 
     CarsExtractor
