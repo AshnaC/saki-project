@@ -1,0 +1,113 @@
+pipeline CarsPipeline {
+
+	block CarsExtractor oftype HttpExtractor {
+		url: "https://www-genesis.destatis.de/genesis/downloads/00/tables/46251-0021_00.csv";
+
+	}
+
+	block CarsTextFileInterpreter oftype TextFileInterpreter {
+        encoding: "utf-8";
+	}
+
+	block CarsCSVInterpreter oftype CSVInterpreter {
+        delimiter: ";";
+	}
+
+    block RedundantRowDeleter oftype RowDeleter {
+        delete: [row 1, row 2, row 3, row 4,row 5, row 6, row 484, row 485,  row 486, row 487 ];
+    }
+
+    block CarColumnNameWriter oftype CellWriter {
+        at:  range  A1:C1;
+        write: ['date', 'CIN', 'name'];
+    }
+
+    block CarColumnNameWriter_2 oftype CellWriter {
+        at:   cell M1;
+        write: ['petrol'];
+    }
+    block CarColumnNameWriter_3 oftype CellWriter {
+        at:   cell W1;
+        write: ['diesel'];
+    }
+    block CarColumnNameWriter_4 oftype CellWriter {
+        at:   cell AG1;
+        write: ['gas'];
+    }
+    block CarColumnNameWriter_5 oftype CellWriter {
+        at:   cell AQ1;
+        write: ['electro'];
+    }
+    block CarColumnNameWriter_6 oftype CellWriter {
+        at:   cell BA1;
+        write: ['hybrid'];
+    }
+    block CarColumnNameWriter_7 oftype CellWriter {
+        at:   cell BK1;
+        write: ['plugInHybrid'];
+    }
+    block CarColumnNameWriter_8 oftype CellWriter {
+        at:   cell BU1;
+        write: ['others'];
+    }
+
+    valuetype CINType oftype text {
+	constraints: [
+		CINLengthConstraint,
+	];
+    }
+
+    constraint CINLengthConstraint oftype LengthConstraint {
+        minLength: 5;
+        maxLength: 5;
+    }
+
+    valuetype OtherColTypes oftype integer {
+	constraints: [
+		LowerBoundConstraint,
+	];
+    }
+
+    constraint LowerBoundConstraint oftype RangeConstraint {
+        lowerBound: 1;
+    }
+
+
+	block CarsTableInterpreter oftype TableInterpreter {
+		header: true;
+		columns: [
+			"date" oftype text,
+			"CIN" oftype CINType,
+			"name" oftype text,
+			"petrol" oftype OtherColTypes,
+			"diesel" oftype OtherColTypes,
+			"gas" oftype OtherColTypes,
+			"electro" oftype OtherColTypes,
+			"hybrid" oftype OtherColTypes,
+			"plugInHybrid" oftype OtherColTypes,
+			"others" oftype OtherColTypes,
+	
+		];
+	}
+
+	block CarsLoader oftype SQLiteLoader {
+		table: "cars";
+		file: "./cars.sqlite";
+	}
+
+    CarsExtractor
+        ->CarsTextFileInterpreter
+        ->CarsCSVInterpreter
+        ->RedundantRowDeleter
+        ->CarColumnNameWriter
+        ->CarColumnNameWriter_2
+        ->CarColumnNameWriter_3
+        ->CarColumnNameWriter_4
+        ->CarColumnNameWriter_5
+        ->CarColumnNameWriter_6
+        ->CarColumnNameWriter_7
+        ->CarColumnNameWriter_8
+        ->CarsTableInterpreter
+        ->CarsLoader;
+
+}
