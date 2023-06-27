@@ -17,9 +17,25 @@ table_names = ['no2_emission', 'ozone_concentration',
                'settlement', 'heavy_metal', 'nitrate_concentration',
                'conservation_area', 'acid_input']
 
-files_to_ignore = ['Agricultural land with high natural value', 'temperature', 'Particulate matter emissions',
+files_to_ignore = ['Agricultural land with high natural value', 'Particulate matter emissions',
                    'Endangered species', 'nlr-02-artenvielfalt', 'Ecological condition of surface watercourses',
                    'noise_pollution_night', 'noise_pollution_day']
+
+
+def print_colored(text, color):
+    color_codes = {
+        'red': '\033[91m',
+        'green': '\033[92m',
+        'yellow': '\033[93m',
+        'blue': '\033[94m',
+        'purple': '\033[95m',
+        'cyan': '\033[96m'
+    }
+    color_code = color_codes.get(color.lower())
+    if color_code:
+        print(f"{color_code}{text}\033[0m")
+    else:
+        print(text)
 
 
 def get_file_prefixes():
@@ -36,3 +52,5 @@ def get_files():
                  isfile(join(parent_dir + '/datasets/indicators/', f))
                  and f.endswith('.csv')]
     return file_list
+
+# Function to print colored text
