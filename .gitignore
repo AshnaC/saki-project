@@ -6,3 +6,4 @@ datasets
 .DS_Store
 .vscode
 *.pyc
+exercise_data/
