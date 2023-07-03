@@ -4,7 +4,7 @@ import pandas as pd
 from sqlalchemy import create_engine, types
 
 zip_url = 'https://www.mowesta.com/data/measure/mowesta-dataset-20221107.zip'
-zip_path = '../exercise_data/exercise4/data.zip'
+zip_path = 'data.zip'
 urllib.request.urlretrieve(zip_url, zip_path)
 
 extract_path = 'files'
