@@ -6,5 +6,4 @@ datasets
 .DS_Store
 .vscode
 *.pyc
-exercise_data/exercise4/files
-*.zip
+exercises/files
