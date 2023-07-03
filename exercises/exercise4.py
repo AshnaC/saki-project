@@ -19,7 +19,7 @@ new_column_names = {'Temperatur in °C (DWD)': 'Temperatur', 'Batterietemperatur
 
 df = df.rename(columns=new_column_names)
 
-
+# print(df)
 def convert_to_fahrenheit(temp):
     return (temp * 9 / 5) + 32
 
