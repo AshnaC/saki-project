@@ -7,11 +7,11 @@ zip_url = 'https://www.mowesta.com/data/measure/mowesta-dataset-20221107.zip'
 zip_path = '../exercise_data/exercise4/data.zip'
 urllib.request.urlretrieve(zip_url, zip_path)
 
-extract_path = '../exercise_data/exercise4/files'
+extract_path = 'files'
 with zipfile.ZipFile(zip_path, 'r') as zip_ref:
     zip_ref.extractall(extract_path)
 
-csv_path = '../exercise_data/exercise4/files/data.csv'
+csv_path = 'files/data.csv'
 columns_to_read = ["Geraet", "Hersteller", "Model", "Monat", "Temperatur in °C (DWD)", "Batterietemperatur in °C",
                    "Geraet aktiv"]
 df = pd.read_csv(csv_path, sep=';', decimal=',', usecols=columns_to_read, index_col=False, header=0)
