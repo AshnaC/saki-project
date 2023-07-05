@@ -5,8 +5,7 @@ pipeline GtfsPipeline {
 
 	}
 
-    // GTFSExtractor -> ZipArchiveInterpreter;
-    
+
     block GtfsArchiveInterpreter oftype ArchiveInterpreter {
 		archiveType: "zip";
 	}
