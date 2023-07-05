@@ -5,7 +5,6 @@ pipeline GtfsPipeline {
 
 	}
 
-
     block GtfsArchiveInterpreter oftype ArchiveInterpreter {
 		archiveType: "zip";
 	}
