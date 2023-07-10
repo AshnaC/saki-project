@@ -52,7 +52,6 @@ pipeline GtfsPipeline {
 
 	}
 
-
     GtfsExtractor
         ->GtfsArchiveInterpreter
         ->GtfsFilePicker
