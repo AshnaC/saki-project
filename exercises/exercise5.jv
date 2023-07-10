@@ -33,6 +33,21 @@ pipeline GtfsPipeline {
 	];
     }
 
+	valuetype ZoneType oftype integer {
+	constraints: [
+		HundredScale,
+	];
+    }
+
+	// constraint AllowedZones oftype AllowlistConstraint {
+  	// 	allowlist: ["2001"];
+	// }
+
+	constraint HundredScale oftype RangeConstraint {
+  		lowerBound: 2001;
+  		upperBound: 2001;      
+	}
+
 
 	block GtfsTableInterpreter oftype TableInterpreter {
 		header: true;
@@ -41,7 +56,7 @@ pipeline GtfsPipeline {
 			"stop_name" oftype text,
 			"stop_lat" oftype LangType ,
 			"stop_lon" oftype LangType,
-			"zone_id" oftype integer,
+			"zone_id" oftype ZoneType,
 		];
 
 	}
