@@ -14,7 +14,7 @@ pipeline GtfsPipeline {
 	}
 
 	block GtfsTextFileInterpreter oftype TextFileInterpreter {
-        encoding: "ASCII";
+        // encoding: "ASCII";
 	}
 
 	block GtfsCSVInterpreter oftype CSVInterpreter {
